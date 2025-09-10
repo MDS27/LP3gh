@@ -53,12 +53,12 @@ def optimize_portfolio(pred_returns, cov_matrix):
     n = len(pred_returns)
     w = cp.Variable(n)
 
-    max_daily_variance = 1**2/252#(1.0 / np.sqrt(252)) ** 2
+    Sigma=cov_matrix*252
 
     constraints = [
         cp.sum(w) == 1,
         w >= 0,
-        cp.quad_form(w, cov_matrix) <= max_daily_variance
+        cp.quad_form(w, Sigma) <= 0.4**2
     ]
 
     objective = cp.Maximize(pred_returns @ w)

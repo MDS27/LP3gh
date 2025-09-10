@@ -27,10 +27,11 @@ def evaluate_portfolio(portfolio: dict, returns: pd.DataFrame):
 def main():
 
     portfolios = [
-        {'SBER': np.float64(0.0), 'TATN': np.float64(0.40645999832810464), 'SBERP': np.float64(0.22117549187690438),
-         'PIKK': np.float64(6.866601670099981e-08), 'PLZL': np.float64(0.09013334914452481), 'AFKS': np.float64(0.0),
-         'RUAL': np.float64(2.1881332584599825e-07), 'GAZP': np.float64(3.923773232147372e-07), 'GMKN': np.float64(0.06202593799815709),
-         'MOEX': np.float64(0.22020454279564328)}
+        {'SBER': np.float64(1.6235463315854972e-06), 'TATN': np.float64(0.8152598783330348),
+         'SBERP': np.float64(1.6526772010904293e-06), 'PIKK': np.float64(1.3751326718732018e-06),
+         'PLZL': np.float64(2.1475853185082616e-06), 'AFKS': np.float64(1.2035025132721334e-06),
+         'RUAL': np.float64(2.1844464637342144e-06), 'GAZP': np.float64(2.3166768714787064e-06),
+         'GMKN': np.float64(2.4249512105071664e-06), 'MOEX': np.float64(0.1847251931483831)}
 ,
         {'SBER': np.float64(0.0445), 'TATN': np.float64(0.1296), 'SBERP': np.float64(0.0531), 'PIKK': np.float64(0.1035),
          'PLZL': np.float64(0.1145), 'AFKS': np.float64(0.0963), 'RUAL': np.float64(0.1279), 'GAZP': np.float64(0.1096),

@@ -9,25 +9,22 @@ TRADING_DAYS_IN_YEAR = 252
 
 def optimize_markowitz(returns_window):
     mu = np.mean(returns_window, axis=0).values
-    Sigma = np.cov(returns_window.T)
+    Sigma = np.cov(returns_window.T)*252
 
     n = len(mu)
     w = cp.Variable(n)
 
-    max_daily_variance = (0.17 / np.sqrt(252)) ** 2
-
     constraints = [
         cp.sum(w) == 1,
         w >= 0,
-        # cp.sqrt(cp.quad_form(w, Sigma)) * np.sqrt(252) <= 0.2
-        cp.quad_form(w, Sigma) <= max_daily_variance
+        cp.quad_form(w, Sigma) <= 0.2**2
     ]
 
     objective = cp.Maximize(mu @ w)
     prob = cp.Problem(objective, constraints)
 
     try:
-        prob.solve(solver=cp.SCS, verbose=False, qcp=True)
+        prob.solve(solver=cp.SCS, verbose=False)
         if w.value is None:
             return np.ones(n) / n
         w_opt = np.array(w.value).clip(min=0)
@@ -35,6 +32,8 @@ def optimize_markowitz(returns_window):
     except Exception as e:
         print("CVXPY error:", e)
         return np.ones(n) / n
+
+
 
 
 

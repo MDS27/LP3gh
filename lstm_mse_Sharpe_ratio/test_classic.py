@@ -9,7 +9,6 @@ RESULTS_DIR = "data_results"
 LOOKBACK = 50
 
 
-
 def load_data(filename):
 
     path = os.path.join(DATA_DIR, filename)
@@ -33,24 +32,22 @@ def create_windows(df, lookback=50):
 
 def optimize_markowitz(returns_window):
     mu = np.mean(returns_window, axis=0)
-    Sigma = np.cov(returns_window.T)
+    Sigma = np.cov(returns_window.T)*252
 
     n = len(mu)
     w = cp.Variable(n)
 
-    max_daily_variance =  1**2/252
-
     constraints = [
         cp.sum(w) == 1,
         w >= 0,
-        cp.quad_form(w, Sigma) <= max_daily_variance
+        cp.quad_form(w, Sigma) <= 0.4**2
     ]
 
     objective = cp.Maximize(mu @ w)
     prob = cp.Problem(objective, constraints)
 
     try:
-        prob.solve(solver=cp.SCS, verbose=False)
+        prob.solve(solver=cp.SCS, qcp=True, verbose=False)
         if w.value is None:
             return np.ones(n) / n
         w_opt = np.array(w.value).clip(min=0)
